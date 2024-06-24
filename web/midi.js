@@ -1,7 +1,7 @@
 async function requestMidiAccess() {
     console.log('Requesting MIDI access')
     try {
-        midiAccess = await navigator.requestMIDIAccess({ sysex: true, software: true });
+        midiAccess = await navigator.requestMIDIAccess({ sysex: false, software: false });
         console.log(midiAccess)
         callDartOnMidiAccess(midiAccess)
     } catch (err) {
