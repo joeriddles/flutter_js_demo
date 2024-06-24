@@ -1,4 +1,5 @@
 async function requestMidiAccess() {
+    console.log('Requesting MIDI access')
     try {
         midiAccess = await navigator.requestMIDIAccess({ sysex: true, software: true });
         console.log(midiAccess)
