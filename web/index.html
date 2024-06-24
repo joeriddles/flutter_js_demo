@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Consider removing `defer` -->
-  <script src="main.js" defer></script>
-  <script src="midi.js" defer></script>
-
   <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
@@ -35,8 +31,31 @@
 
   <title>flutter_js_demo</title>
   <link rel="manifest" href="manifest.json">
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    const serviceWorkerVersion = null;
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    window.addEventListener('load', function (ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: async function(engineInitializer) {
+          // Initialize the Flutter engine
+          let appRunner = await engineInitializer.initializeEngine();
+          // Run the app
+          await appRunner.runApp();
+        }
+      });
+    });
+  </script>
+  <script src="midi.js" defer></script>
 </body>
 </html>

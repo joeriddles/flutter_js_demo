@@ -1,15 +1,15 @@
 import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
+import 'js.dart' as js;
 
-@JS('add')
-external JSNumber add();
-
-@JS('subtract')
-// ignore: unused_element
-set _subtract(JSExportedDartFunction f) => ((int x, int y) => x -y).toJS;
+JSObject? midiAccess;
 
 void main() {
+  js.onMidiAccess = ((JSObject midiAccessFromJs) {
+    midiAccess = midiAccessFromJs;
+  }).toJS;
+
   runApp(const MyApp());
 }
 
@@ -39,11 +39,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  String _title = "No MIDI access";
 
-  void _incrementCounter() {
+  void _refreshTitle() {
     setState(() {
-      _counter++;
+      if (midiAccess != null) {
+        _title = midiAccess.toString();
+      }
     });
   }
 
@@ -58,20 +60,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text(_title),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        key: const Key('refresh'),
+        onPressed: _refreshTitle,
+        tooltip: 'Refresh',
+        child: const Icon(Icons.refresh),
       ),
     );
   }
