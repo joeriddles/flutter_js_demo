@@ -36,7 +36,6 @@ is_on_github_actions() {
 # Use headless in GitHub, headed locally
 if is_on_github_actions; then
   dart $FLUTTER_TOOLS_PATH drive \
-    --web-launch-url='https://localhost:5555/' \
     --target=integration_test/main_test.dart \
     --device-id web-server \
     --browser-dimension=1280,1024
@@ -44,7 +43,6 @@ else
   trap cleanup EXIT
 
   dart $FLUTTER_TOOLS_PATH drive \
-    --web-launch-url='https://localhost:5555/' \
     --target=integration_test/main_test.dart \
     --device-id web-server \
     --browser-dimension=1280,1024 \
