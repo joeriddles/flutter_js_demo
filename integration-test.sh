@@ -18,13 +18,13 @@ chromedriver \
   --webdriver-loglevel=DEBUG \
   &
 
-cleanup() {
-  status=$?
-  kill 0
-  exit $status
-}
+# cleanup() {
+#   status=$?
+#   kill 0
+#   exit $status
+# }
 
-trap cleanup EXIT
+# trap cleanup EXIT
 
 is_on_github_actions() {
     if [ -z "${CI:-}" ] || [ -z "${GITHUB_RUN_ID:-}" ]; then
@@ -37,11 +37,13 @@ is_on_github_actions() {
 # Use headless in GitHub, headed locally
 if is_on_github_actions; then
   dart $FLUTTER_TOOLS_PATH drive \
+    --no-pub \
     --target=integration_test/main_test.dart \
     --device-id web-server \
     --browser-dimension=1280,1024
 else
   dart $FLUTTER_TOOLS_PATH drive \
+    --no-pub \
     --target=integration_test/main_test.dart \
     --device-id web-server \
     --browser-dimension=1280,1024 \
