@@ -14,6 +14,8 @@ chromedriver \
   --disable-web-security \
   --allowed-ips \
   --allowed-origins=* \
+  --ignore-certificate-errors \
+  --webdriver-loglevel=DEBUG \
   &
 
 cleanup() {
@@ -24,7 +26,24 @@ cleanup() {
 
 trap cleanup EXIT
 
-dart $FLUTTER_TOOLS_PATH drive \
-  --target=integration_test/main_test.dart \
-  --device-id web-server \
-  --browser-dimension=1280,1024
+is_on_github_actions() {
+    if [ -z "${CI:-}" ] || [ -z "${GITHUB_RUN_ID:-}" ]; then
+        return 1  # False
+    else
+        return 0  # True
+    fi
+}
+
+# Use headless in GitHub, headed locally
+if is_on_github_actions; then
+  dart $FLUTTER_TOOLS_PATH drive \
+    --target=integration_test/main_test.dart \
+    --device-id web-server \
+    --browser-dimension=1280,1024
+else
+  dart $FLUTTER_TOOLS_PATH drive \
+    --target=integration_test/main_test.dart \
+    --device-id web-server \
+    --browser-dimension=1280,1024 \
+    --no-headless
+fi

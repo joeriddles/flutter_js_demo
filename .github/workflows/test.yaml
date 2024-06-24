@@ -41,3 +41,9 @@ jobs:
       - name: Run integration tests
         run: |
           ./integration-test.sh
+      
+      - name: Save test screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: ./screenshots

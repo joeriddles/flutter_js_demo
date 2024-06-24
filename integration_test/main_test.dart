@@ -26,10 +26,11 @@ void main() {
     // Act
     final fab = find.byKey(const Key('refresh'));
     final expectedFinder = find.text("[object MIDIAccess]");
+    final errorFinder = find.textContaining(RegExp(r'Error:.*'));
 
-    await test_utils.pumpUntilFound(
+    await test_utils.pumpUntilAnyFound(
       tester,
-      find.text("[object MIDIAccess]"),
+      [expectedFinder, errorFinder],
       action: () async {
         await tester.tap(fab);
         await tester.pumpAndSettle();
@@ -44,6 +45,10 @@ void main() {
       screenShotName: "midi_post",
     );
 
+    if (errorFinder.hasFound) {
+      final errorMessage = (errorFinder.first.evaluate().single.widget as Text).data;
+      fail('Failed with error message: $errorMessage');
+    }
     expect(expectedFinder, findsOneWidget);
   });
 }

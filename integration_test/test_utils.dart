@@ -21,48 +21,36 @@ Future<void> takeScreenShot({
   await binding.takeScreenshot(screenShotName);
 }
 
-/// Pump for the duration of [timeout].
-Future<void> pumpFor(
+/// Pump until any of [finders] is found or the timer runs out.
+///
+/// [actions] are performed in between every pump, if not null.
+Future<Finder> pumpUntilAnyFound(
   WidgetTester tester,
-  Duration timeout, {
-  Function? action,
-}) async {
-  bool timerDone = false;
-  final timer = Timer(timeout, () => timerDone = true);
-  while (timerDone != true) {
-    await tester.pump();
-    if (action != null) {
-      await action();
-    }
-    await Future.delayed(const Duration(milliseconds: 100));
-  }
-
-  timer.cancel();
-}
-
-/// Pump until [finder] is found or the timer runs out.
-Future<void> pumpUntilFound(
-  WidgetTester tester,
-  Finder finder, {
+  List<Finder> finders, {
   Duration timeout = const Duration(seconds: 10),
   Function? action,
 }) async {
   bool timerDone = false;
   final timer = Timer(timeout, () => timerDone = true);
-  bool found = false;
+  Finder? foundFinder;
   while (timerDone != true) {
-    await tester.pump();
-
-    found = tester.any(finder);
-    if (found) {
-      timerDone = true;
+    for (var i = 0; i < finders.length; i++) {
+      final finder = finders[i];
+      final found = tester.any(finder);
+      if (found) {
+        timerDone = true;
+        foundFinder = finder;
+        break;
+      }
     }
 
     if (action != null) {
       await action();
     }
+    await tester.pump();
   }
 
   timer.cancel();
-  expect(found, true, reason: 'Failed to find in the time limit.');
+  expect(foundFinder, isNotNull, reason: 'Failed to find in the time limit.');
+  return foundFinder!;
 }

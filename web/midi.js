@@ -38,6 +38,6 @@ async function callDartOnMidiAccess(midiAccess) {
     try {
         await requestMidiAccess()
     } catch (err) {
-        console.error(err)
+        throw err
     }
 })()
