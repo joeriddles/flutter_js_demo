@@ -27,5 +27,4 @@ trap cleanup EXIT
 dart $FLUTTER_TOOLS_PATH drive \
   --target=integration_test/main_test.dart \
   --device-id web-server \
-  --browser-dimension=1280,1024 \
-  --no-headless
+  --browser-dimension=1280,1024
