@@ -1,23 +1,22 @@
 async function requestMidiAccess() {
-    console.log('Requesting MIDI access')
     try {
-        midiAccess = await navigator.requestMIDIAccess({ sysex: false, software: false });
+        const midiAccess = await navigator.requestMIDIAccess({ sysex: true, software: true });
         console.log(midiAccess)
-        callDartOnMidiAccess(midiAccess)
-    } catch (err) {
-        const error = new Error(`Failed to get MIDI access for ${window.location.href}`, { cause: err })
+        await callDartOnMidiAccess(midiAccess)
+    } catch (error) {
+        // error = new Error(`Failed to get MIDI access for ${window.location.href}`, { cause: error })
         console.error(error)
-        callDartOnMidiAccess(error)
+        await callDartOnMidiAccess(error)
     }
 }
 
-let retried = false;
+let onMidiAccessRetried = false;
 
 async function callDartOnMidiAccess(midiAccess) {
     try {
         window.onMidiAccess(midiAccess)
     } catch (err) {
-        if (retried) {
+        if (onMidiAccessRetried) {
             throw err;
         }
 
@@ -26,19 +25,35 @@ async function callDartOnMidiAccess(midiAccess) {
         // Try again in 3 seconds
         setTimeout(
             () => {
-                retried = true
-                callDartOnMidiAccess(midiAccess)
+                onMidiAccessRetried = true
+                window.onMidiAccess(midiAccess)
             },
             3_000,
         );
     }
 }
 
-(async () => {
+let requestMidiAccessRetried = false;
+
+export async function loadMidi() {
     console.log('Starting midi.js')
     try {
         await requestMidiAccess()
     } catch (err) {
-        throw err
+        if (requestMidiAccessRetried) {
+            throw err;
+        }
+    
+        console.warn(err)
+    
+        // Try again in 3 seconds
+        setTimeout(
+            async () => {
+                requestMidiAccessRetried = true
+                await requestMidiAccess(midiAccess)
+            },
+            10_000,
+        );
     }
-})()
+}
+

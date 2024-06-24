@@ -23,6 +23,12 @@ void main() {
       screenShotName: "midi_pre",
     );
 
+    await test_utils.takeScreenShot(
+      binding: binding,
+      tester: tester,
+      screenShotName: "DEBUG",
+    );
+
     // Act
     final fab = find.byKey(const Key('refresh'));
     final expectedFinder = find.text("[object MIDIAccess]");
@@ -45,10 +51,10 @@ void main() {
       screenShotName: "midi_post",
     );
 
-    if (errorFinder.hasFound) {
-      final errorMessage = (errorFinder.first.evaluate().single.widget as Text).data;
-      fail('Failed with error message: $errorMessage');
+    if (errorFinder.hasFound && errorFinder.found.isNotEmpty) {
+      final errorMessage = (errorFinder.found.single.widget as Text).data;
+      fail('Failed to access MIDI with error: $errorMessage');
     }
-    expect(expectedFinder, findsOneWidget);
+    expect(expectedFinder.found.length, 1, reason: 'Could not find [object MIDIAccess]');
   });
 }

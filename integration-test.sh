@@ -15,8 +15,6 @@ chromedriver \
   --allowed-ips \
   --allowed-origins=* \
   --ignore-certificate-errors \
-  --allow-insecure-localhost \
-  --webdriver-loglevel=DEBUG \
   &
 
 cleanup() {
@@ -38,7 +36,8 @@ if is_on_github_actions; then
   dart $FLUTTER_TOOLS_PATH drive \
     --target=integration_test/main_test.dart \
     --device-id web-server \
-    --browser-dimension=1280,1024
+    --browser-dimension=1280,1024 \
+    --verbose
 else
   trap cleanup EXIT
 
@@ -47,6 +46,5 @@ else
     --device-id web-server \
     --browser-dimension=1280,1024 \
     --no-pub \
-    --no-headless \
-    --verbose
+    --no-headless
 fi
