@@ -27,15 +27,7 @@ jobs:
           export DISPLAY=:99
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
 
-      - name: Restore Flutter SDK cache
-        id: restore-flutter-sdk-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: ~/source/flutter/
-          key: ${{ runner.os }}-flutter-sdk
-
       - name: Install forked Flutter
-        if: steps.restore-flutter-sdk-cache.outputs.cache-hit != 'true'
         run: |
           set -eux
           mkdir -p ~/source/flutter/
@@ -46,13 +38,6 @@ jobs:
           git fetch --quiet upstream
           ./bin/flutter update-packages
           echo "$PWD/bin" >> $GITHUB_PATH
-      
-      - name: Save Flutter SDK cache
-        id: save-flutter-sdk-cache
-        uses: actions/cache/save@v4
-        with:
-          path: ~/source/flutter/
-          key: ${{ steps.restore-flutter-sdk-cache.outputs.cache-primary-key }}
 
       - name: Run integration tests
         run: |
