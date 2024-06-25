@@ -36,7 +36,8 @@ if is_on_github_actions; then
   dart $FLUTTER_TOOLS_PATH drive \
     --target=integration_test/main_test.dart \
     --device-id web-server \
-    --browser-dimension=1280,1024
+    --browser-dimension=1280,1024 \
+    --web-browser-flag='--remote-debugging-port=9222'
 else
   trap cleanup EXIT
 
@@ -44,6 +45,7 @@ else
     --target=integration_test/main_test.dart \
     --device-id web-server \
     --browser-dimension=1280,1024 \
+    --web-browser-flag='--remote-debugging-port=9222' \
     --no-pub \
     --no-headless
 fi
