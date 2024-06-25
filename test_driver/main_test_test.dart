@@ -18,7 +18,7 @@ Future<void> main() async {
       'audioCapture',
       'videoCapture',
       'midi',
-      'midiSysex',
+      // 'midiSysex',
     ]
   });
   print(permissionResponse.toString());
