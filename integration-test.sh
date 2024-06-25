@@ -8,14 +8,14 @@ FLUTTER_TOOLS_PATH="$FLUTTER_PATH_DIR/packages/flutter_tools/bin/flutter_tools.d
 
 chromedriver \
   --port=4444 \
-  --auto-accept-camera-and-microphone-capture \
-  --use-fake-ui-for-media-stream \
-  --remote-debugging-pipe \
-  --disable-web-security \
-  --allowed-ips \
-  --allowed-origins=* \
-  --ignore-certificate-errors \
-  &
+  --remote-debugging-pipe &
+  # --auto-accept-camera-and-microphone-capture \
+  # --use-fake-ui-for-media-stream \
+  # --disable-web-security \
+  # --allowed-ips \
+  # --allowed-origins=* \
+  # --ignore-certificate-errors \
+  # &
 
 cleanup() {
   status=$?

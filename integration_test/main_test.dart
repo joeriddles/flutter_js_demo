@@ -23,12 +23,6 @@ void main() {
       screenShotName: "midi_pre",
     );
 
-    await test_utils.takeScreenShot(
-      binding: binding,
-      tester: tester,
-      screenShotName: "DEBUG",
-    );
-
     // Act
     final fab = find.byKey(const Key('refresh'));
     final expectedFinder = find.text("[object MIDIAccess]");
