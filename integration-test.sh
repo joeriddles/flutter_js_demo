@@ -65,15 +65,21 @@ gracefully_shutdown() {
   for SIG in 15 2 3 6 9 ; do echo $SIG ; echo kill -$SIG $PID || break ; sleep 30 ; done
 }
 
+declare FFMPEG_ID
+
 stop_ffmpeg() {
   status=$?
-  gracefully_shutdown $FFMPEG_ID
+  echo 'q' > ./stop
+  # gracefully_shutdown $FFMPEG_ID
   exit $status
 }
 
 if is_on_github_actions; then
   mkdir -p ./screenshots
-  ffmpeg \
+  touch ./stop
+  <./stop ffmpeg \
+    -loglevel warning \
+    -y \
     -video_size 1280x1024 \
     -f x11grab \
     -framerate 25 \

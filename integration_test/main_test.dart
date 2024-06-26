@@ -32,7 +32,7 @@ void main() {
         await tester.tap(requestPermissionsButton);
         await tester.pumpAndSettle();
       },
-      timeout: const Duration(seconds: 60),
+      timeout: const Duration(seconds: 15),
     ).catchError((error) async {
       await test_utils.takeScreenShot(
         binding: binding,
