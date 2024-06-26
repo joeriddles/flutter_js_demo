@@ -51,6 +51,6 @@ Future<Finder> pumpUntilAnyFound(
   }
 
   timer.cancel();
-  expect(foundFinder, isNotNull, reason: 'Failed to find in the time limit.');
+  expect(foundFinder, isNotNull, reason: 'Failed to find $foundFinder in the time limit.');
   return foundFinder!;
 }
