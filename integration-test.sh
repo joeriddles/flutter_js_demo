@@ -95,13 +95,11 @@ fi
 
 declare -a pids
 
-sleep 10
+test_1 &
+pids[0]=$!
 
-# test_1 &
-# pids[0]=$!
-
-# test_2 &
-# pids[1]=$!
+test_2 &
+pids[1]=$!
 
 for pid in "${pids[@]}"; do
     wait "$pid"
