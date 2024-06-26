@@ -61,6 +61,7 @@ if ! is_on_github_actions; then
 fi
 
 if is_on_github_actions; then
+  mkdir -p ./screenshots
   ffmpeg \
     -video_size 1280x1024 \
     -f x11grab \
