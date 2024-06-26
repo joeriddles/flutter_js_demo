@@ -12,7 +12,8 @@ on:
 
 jobs:
   test:
-    runs-on: macos-latest
+    # Use amd64 instead of arm64
+    runs-on: macos-latest-large
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
