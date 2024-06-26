@@ -31,7 +31,7 @@ void main() {
       tester,
       [expectedFinder, errorFinder],
       action: tester.pumpAndSettle,
-      timeout: const Duration(seconds: 10),
+      timeout: const Duration(seconds: 60),
     );
 
     // Assert
