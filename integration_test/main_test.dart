@@ -23,14 +23,15 @@ void main() {
     // Act
     final expectedFinder = find.text("[object MIDIAccess]");
     final errorFinder = find.textContaining(RegExp(r'Error:.*'));
-
     final requestPermissionsButton = find.text('Request permissions');
-    await tester.tap(requestPermissionsButton);
 
     await test_utils.pumpUntilAnyFound(
       tester,
       [expectedFinder, errorFinder],
-      action: tester.pumpAndSettle,
+      action: () async {
+        await tester.tap(requestPermissionsButton);
+        await tester.pumpAndSettle();
+      },
       timeout: const Duration(seconds: 60),
     );
 
