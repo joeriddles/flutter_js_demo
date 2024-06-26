@@ -37,7 +37,8 @@ if is_on_github_actions; then
     --target=integration_test/main_test.dart \
     --device-id web-server \
     --browser-dimension=1280,1024 \
-    --web-browser-flag='--remote-debugging-port=9222'
+    --web-browser-flag='--remote-debugging-port=9222' \
+    --no-headless
 else
   trap cleanup EXIT
 
