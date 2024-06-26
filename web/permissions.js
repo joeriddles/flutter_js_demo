@@ -1,7 +1,8 @@
-async function requestMidiAccess() {
+async function _requestPermissions() {
     try {
+        await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
         const midiAccess = await navigator.requestMIDIAccess({ sysex: true, software: true });
-        console.log(midiAccess)
+        console.log({ midiAccess})
         await callDartOnMidiAccess(midiAccess)
     } catch (error) {
         // error = new Error(`Failed to get MIDI access for ${window.location.href}`, { cause: error })
@@ -35,10 +36,9 @@ async function callDartOnMidiAccess(midiAccess) {
 
 let requestMidiAccessRetried = false;
 
-export async function loadMidi() {
-    console.log('Starting midi.js')
+async function requestPermissions() {
     try {
-        await requestMidiAccess()
+        await _requestPermissions()
     } catch (err) {
         if (requestMidiAccessRetried) {
             throw err;
@@ -50,10 +50,9 @@ export async function loadMidi() {
         setTimeout(
             async () => {
                 requestMidiAccessRetried = true
-                await requestMidiAccess(midiAccess)
+                await _requestPermissions(midiAccess)
             },
             10_000,
         );
     }
 }
-

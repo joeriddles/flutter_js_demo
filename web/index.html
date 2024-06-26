@@ -40,9 +40,8 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
+  <script src="permissions.js"></script>
   <script type="module">
-    import { loadMidi } from './midi.js'
-
     window.addEventListener('load', function (ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
@@ -54,8 +53,6 @@
           let appRunner = await engineInitializer.initializeEngine();
           // Run the app
           await appRunner.runApp();
-
-          await loadMidi();
         }
       });
     });

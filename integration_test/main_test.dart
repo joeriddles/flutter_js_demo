@@ -1,7 +1,4 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_js_demo/js.dart' as js;
 import 'package:flutter_js_demo/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -12,10 +9,6 @@ void main() {
 
   testWidgets("test MIDI", (WidgetTester tester) async {
     // Arrange
-    js.onMidiAccess = ((JSObject midiAccessFromJs) {
-      midiAccess = midiAccessFromJs;
-    }).toJS;
-
     await tester.pumpWidget(const MyApp());
     await test_utils.takeScreenShot(
       binding: binding,
@@ -24,17 +17,16 @@ void main() {
     );
 
     // Act
-    final fab = find.byKey(const Key('refresh'));
     final expectedFinder = find.text("[object MIDIAccess]");
     final errorFinder = find.textContaining(RegExp(r'Error:.*'));
+
+    final requestPermissionsButton = find.text('Request permissions');
+    await tester.tap(requestPermissionsButton);
 
     await test_utils.pumpUntilAnyFound(
       tester,
       [expectedFinder, errorFinder],
-      action: () async {
-        await tester.tap(fab);
-        await tester.pumpAndSettle();
-      },
+      action: tester.pumpAndSettle,
       timeout: const Duration(seconds: 60),
     );
 

@@ -3,13 +3,7 @@ import 'dart:js_interop';
 import 'package:flutter/material.dart';
 import 'js.dart' as js;
 
-JSObject? midiAccess;
-
 void main() {
-  js.onMidiAccess = ((JSObject midiAccessFromJs) {
-    midiAccess = midiAccessFromJs;
-  }).toJS;
-
   runApp(const MyApp());
 }
 
@@ -41,16 +35,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _title = "No MIDI access";
 
-  void _refreshTitle() {
-    setState(() {
-      if (midiAccess != null) {
-        _title = midiAccess.toString();
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    js.onMidiAccess = ((JSObject midiAccessFromJs) {
+      setState(() {
+        _title = midiAccessFromJs.toString();
+      });
+    }).toJS;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -61,14 +53,14 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(_title),
+            TextButton(
+              onPressed: () async {
+                await js.requestPermissions().toDart;
+              },
+              child: const Text('Request permissions'),
+            )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        key: const Key('refresh'),
-        onPressed: _refreshTitle,
-        tooltip: 'Refresh',
-        child: const Icon(Icons.refresh),
       ),
     );
   }
