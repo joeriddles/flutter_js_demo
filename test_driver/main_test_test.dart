@@ -4,7 +4,10 @@ import 'package:integration_test/integration_test_driver_extended.dart';
 import 'package:webkit_inspection_protocol/webkit_inspection_protocol.dart';
 
 Future<void> main() async {
-  final chromeConnection = ChromeConnection('localhost');
+  final remoteDebuggingPort =
+      int.parse(Platform.environment["REMOTE_DEBUGGING_PORT"]!);
+  print('Starting ChromeConnection at localhost:$remoteDebuggingPort');
+  final chromeConnection = ChromeConnection('localhost', remoteDebuggingPort);
   final chromeTab = (await chromeConnection.getTabs()).first;
   final wipConnection = await chromeTab.connect();
   final wipPage = WipPage(wipConnection);

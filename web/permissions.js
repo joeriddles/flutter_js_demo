@@ -36,6 +36,10 @@ async function callDartOnMidiAccess(midiAccess) {
 
 let requestMidiAccessRetried = false;
 
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function requestPermissions() {
     try {
         await _requestPermissions()
@@ -46,13 +50,8 @@ async function requestPermissions() {
     
         console.warn(err)
     
-        // Try again in 3 seconds
-        setTimeout(
-            async () => {
-                requestMidiAccessRetried = true
-                await _requestPermissions(midiAccess)
-            },
-            10_000,
-        );
+        await timeout(3_000)
+        requestMidiAccessRetried = true
+        await _requestPermissions(midiAccess)
     }
 }
