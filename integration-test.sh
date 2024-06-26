@@ -51,7 +51,7 @@ test_2() {
     --browser-dimension=960,1080 \
     --driver-port=4445 \
     --web-browser-flag='--remote-debugging-port=9223' \
-    --web-browser-flag='--window-position=960,0' \
+    --web-browser-flag='--window-position="960,0"' \
     --driver-environment "{\"REMOTE_DEBUGGING_PORT\": 9223}" \
     --no-pub \
     --no-headless
