@@ -60,19 +60,20 @@ if ! is_on_github_actions; then
   trap cleanup EXIT
 fi
 
+gracefully_shutdown() {
+  $PID=$1
+  for SIG in 15 2 3 6 9 ; do echo $SIG ; echo kill -$SIG $PID || break ; sleep 30 ; done
+}
+
 stop_ffmpeg() {
   status=$?
-
-  # stop ffmpeg
-  echo 'q' >stop
-  sleep 10
-
+  gracefully_shutdown $FFMPEG_ID
   exit $status
 }
 
 if is_on_github_actions; then
   mkdir -p ./screenshots
-  <stop ffmpeg \
+  ffmpeg \
     -video_size 1280x1024 \
     -f x11grab \
     -framerate 25 \
@@ -82,6 +83,7 @@ if is_on_github_actions; then
     -f flv \
     ./screenshots/recording.flv \
     &
+  FFMPEG_ID=$!
   trap stop_ffmpeg EXIT
 fi
 
