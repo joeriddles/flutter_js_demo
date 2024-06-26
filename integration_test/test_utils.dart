@@ -32,10 +32,11 @@ Future<Finder> pumpUntilAnyFound(
 }) async {
   bool timerDone = false;
   final timer = Timer(timeout, () => timerDone = true);
+  Finder? finder;
   Finder? foundFinder;
   while (timerDone != true) {
     for (var i = 0; i < finders.length; i++) {
-      final finder = finders[i];
+      finder = finders[i];
       final found = tester.any(finder);
       if (found) {
         timerDone = true;
@@ -51,6 +52,6 @@ Future<Finder> pumpUntilAnyFound(
   }
 
   timer.cancel();
-  expect(foundFinder, isNotNull, reason: 'Failed to find $foundFinder in the time limit.');
+  expect(foundFinder, isNotNull, reason: 'Failed to find $finder in the time limit.');
   return foundFinder!;
 }
