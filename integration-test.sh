@@ -30,7 +30,7 @@ test_1() {
   dart $FLUTTER_TOOLS_PATH drive \
     --target=integration_test/main_test.dart \
     --device-id web-server \
-    --browser-dimension=1280,1024 \
+    --browser-dimension=960,1080 \
     --driver-port=4444 \
     --web-browser-flag='--remote-debugging-port=9222' \
     --driver-environment "{\"REMOTE_DEBUGGING_PORT\": 9222}" \
@@ -48,9 +48,10 @@ test_2() {
   dart $FLUTTER_TOOLS_PATH drive \
     --target=integration_test/main_test.dart \
     --device-id web-server \
-    --browser-dimension=1280,1024 \
+    --browser-dimension=960,1080 \
     --driver-port=4445 \
     --web-browser-flag='--remote-debugging-port=9223' \
+    --web-browser-flag='--window-position=960,0' \
     --driver-environment "{\"REMOTE_DEBUGGING_PORT\": 9223}" \
     --no-pub \
     --no-headless
@@ -60,6 +61,7 @@ if ! is_on_github_actions; then
   trap cleanup EXIT
 fi
 
+# See https://stackoverflow.com/a/37692419/11343166
 gracefully_shutdown() {
   $PID=$1
   for SIG in 15 2 3 6 9 ; do echo $SIG ; echo kill -$SIG $PID || break ; sleep 30 ; done
@@ -69,8 +71,9 @@ declare FFMPEG_ID
 
 stop_ffmpeg() {
   status=$?
+  # See https://stackoverflow.com/a/21032143/11343166
   echo 'q' > ./stop
-  # gracefully_shutdown $FFMPEG_ID
+  sleep 5
   exit $status
 }
 
