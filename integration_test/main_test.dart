@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_js_demo/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:uuid/uuid.dart';
 import 'test_utils.dart' as test_utils;
 
 void main() {
@@ -10,17 +9,17 @@ void main() {
 
   testWidgets("test MIDI", (WidgetTester tester) async {
     // Arrange
-    const uuid = Uuid();
-    final guid = uuid.v4();
-
     await tester.pumpWidget(const MyApp());
     await test_utils.takeScreenShot(
       binding: binding,
       tester: tester,
-      screenShotName: "midi_pre_$guid",
+      screenShotName: "midi_pre",
     );
 
     // Act
+    final titleFinder = find.byKey(const Key('title'));
+    final guid = (titleFinder.evaluate().single.widget as Text).data!.split(":")[1].trim();
+
     final expectedFinder = find.text("[object MIDIAccess]");
     final errorFinder = find.textContaining(RegExp(r'Error:.*'));
     final requestPermissionsButton = find.text('Request permissions');
