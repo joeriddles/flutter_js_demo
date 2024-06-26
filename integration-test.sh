@@ -60,6 +60,19 @@ if ! is_on_github_actions; then
   trap cleanup EXIT
 fi
 
+if is_on_github_actions; then
+  ffmpeg \
+    -video_size 1280x1024 \
+    -f x11grab \
+    -i :99 \
+    -c:v libx264 \
+    -c:a aac \
+    -f flv \
+    ./screenshots/recording.flv \
+    &
+  FFMPEG_ID=$!
+fi
+
 declare -a pids
 
 test_1 &
@@ -76,5 +89,9 @@ for pid in "${pids[@]}"; do
         exit $status
     fi
 done
+
+if is_on_github_actions; then
+  kill -TERM $FFMPEG_ID
+end
 
 exit 0
