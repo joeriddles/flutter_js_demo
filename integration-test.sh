@@ -63,7 +63,8 @@ fi
 if is_on_github_actions; then
   ffmpeg \
     -video_size 1280x1024 \
-    -f x11 \
+    -f x11grab \
+    -framerate 25 \
     -i :99 \
     -c:v libx264 \
     -c:a aac \
