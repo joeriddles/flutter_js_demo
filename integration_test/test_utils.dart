@@ -52,6 +52,12 @@ Future<Finder> pumpUntilAnyFound(
   }
 
   timer.cancel();
-  expect(foundFinder, isNotNull, reason: 'Failed to find $finder in the time limit.');
+
+  expect(
+    foundFinder,
+    isNotNull,
+    reason:
+        'Failed to find any of the following in the time limit:\n${finders.map((f) => f.toString()).join("\n")}',
+  );
   return foundFinder!;
 }

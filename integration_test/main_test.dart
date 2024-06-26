@@ -33,7 +33,14 @@ void main() {
         await tester.pumpAndSettle();
       },
       timeout: const Duration(seconds: 60),
-    );
+    ).catchError((error) async {
+      await test_utils.takeScreenShot(
+        binding: binding,
+        tester: tester,
+        screenShotName: "midi_error_$guid",
+      );
+      throw error;
+    });
 
     // Assert
     await test_utils.takeScreenShot(
@@ -46,6 +53,7 @@ void main() {
       final errorMessage = (errorFinder.found.single.widget as Text).data;
       fail('Failed to access MIDI with error: $errorMessage');
     }
-    expect(expectedFinder.found.length, 1, reason: 'Could not find [object MIDIAccess]');
+    expect(expectedFinder.found.length, 1,
+        reason: 'Could not find [object MIDIAccess]');
   });
 }
