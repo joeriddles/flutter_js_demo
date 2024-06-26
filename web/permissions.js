@@ -52,6 +52,6 @@ async function requestPermissions() {
     
         await timeout(3_000)
         requestMidiAccessRetried = true
-        await _requestPermissions(midiAccess)
+        await _requestPermissions()
     }
 }
