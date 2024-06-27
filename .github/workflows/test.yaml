@@ -26,6 +26,10 @@ jobs:
         id: setup-ffmpeg
         with:
           ffmpeg-version: release
+      
+      - run: |
+          ffmpeg -f avfoundation -list_devices true -i ""
+          kill 0
 
       - name: Install forked Flutter
         run: |
@@ -41,9 +45,6 @@ jobs:
 
       - name: Run integration tests
         run: |
-          ffmpeg -f avfoundation -list_devices true -i ""
-          kill 0
-
           export DISPLAY=:99
           sudo Xvfb -ac :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
           ./integration-test.sh
