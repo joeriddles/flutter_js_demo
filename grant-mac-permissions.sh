@@ -2,6 +2,11 @@
 set -eux
 
 CHROME_PATH='/Applications/Google Chrome for Testing.app'
+if ! test -f $CHROME_PATH; then 
+  echo "CHROME_PATH not found: $CHROME_PATH"
+  exit 1
+fi
+
 DB_PATH="/Library/Application Support/com.apple.TCC/TCC.db"
 DB_COLUMNS="service, client, client_type, auth_value, auth_reason, auth_version, csreq, flags"
 
