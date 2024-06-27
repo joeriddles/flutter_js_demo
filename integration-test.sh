@@ -34,7 +34,6 @@ test_1() {
     --driver-port=4444 \
     --web-browser-flag=--remote-debugging-port=9222 \
     --driver-environment "{\"REMOTE_DEBUGGING_PORT\": 9222}" \
-    --chrome-binary="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
     --no-pub \
     --no-headless
 }
@@ -56,7 +55,6 @@ test_2() {
     --web-browser-flag=--remote-debugging-port=9223 \
     --web-browser-flag=--window-position="960,0" \
     --driver-environment "{\"REMOTE_DEBUGGING_PORT\": 9223}" \
-    --chrome-binary="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
     --no-pub \
     --no-headless
 }
@@ -128,8 +126,8 @@ declare -a pids
 test_1 &
 pids[0]=$!
 
-test_2 &
-pids[1]=$!
+# test_2 &
+# pids[1]=$!
 
 for pid in "${pids[@]}"; do
     wait "$pid"

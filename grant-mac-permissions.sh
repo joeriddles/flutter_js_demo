@@ -7,7 +7,7 @@ set -eux
 # codesign --detached './Google Chrome for Testing.sig' -s - './Google Chrome for Testing'
 # codesign -d -r- --detached './Google Chrome for Testing.sig' './Google Chrome for Testing'
 
-CHROME_PATH='/Applications/Google Chrome'
+CHROME_PATH='/Applications/Google Chrome.app'
 
 # See https://entonos.com/2023/06/23/how-to-modify-tcc-on-macos/
 # and https://stackoverflow.com/questions/52706542/how-to-get-csreq-of-macos-application-on-command-line/57259004#57259004
