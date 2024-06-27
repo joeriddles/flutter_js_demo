@@ -29,10 +29,7 @@ jobs:
       
       - name: Give Chrome permissions
         run: |
-          sudo echo ".schema access" | sqlite3 '/Library/Application Support/com.apple.TCC/TCC.db'
-          sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "insert into access (service, client, client_type, allowed, prompt_count, indirect_object_identifier, flags) values ('kTCCServiceMicrophone', '/bin/bash', 1, 1, 1, 'UNUSED', 0)"
-          sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "insert into access (service, client, client_type, allowed, prompt_count, indirect_object_identifier, flags) values ('kTCCServiceCamera', '/bin/bash', 1, 1, 1, 'UNUSED', 0)"
-          sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "insert into access (service, client, client_type, allowed, prompt_count, indirect_object_identifier, flags) values ('kTCCServiceScreenCapture', '/bin/bash', 1, 1, 1, 'UNUSED', 0)"
+          ./grant-mac-permissions.sh
       
       - uses: FedericoCarboni/setup-ffmpeg@v3
         id: setup-ffmpeg
