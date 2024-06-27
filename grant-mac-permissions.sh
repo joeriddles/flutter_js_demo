@@ -1,9 +1,9 @@
 #!/bin/bash
 set -eux
 
-npx -y @puppeteer/browsers install chrome@126
-cd chrome/*/*
-CHROME_PATH='./Google Chrome for Testing.app'
+# TODO(joeriddles): don't hardcode this
+CHROME_PATH='/Users/runner/hostedtoolcache/setup-chrome/chromium/126.0.6478.126/x64/Google Chrome for Testing.app'
+
 # See https://entonos.com/2023/06/23/how-to-modify-tcc-on-macos/
 # and https://stackoverflow.com/questions/52706542/how-to-get-csreq-of-macos-application-on-command-line/57259004#57259004
 codesign -dr - "$CHROME_PATH"  2>&1 | awk -F ' => ' '/designated/{print $2}' | csreq -r- -b /tmp/csreq.bin 
