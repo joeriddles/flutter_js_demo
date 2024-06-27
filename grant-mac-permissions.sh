@@ -18,7 +18,9 @@ SYSTEM_DB_PATH="/Library/Application Support/com.apple.TCC/TCC.db"
 USER_DB_PATH="/Users/$USER/Library/Application Support/com.apple.TCC/TCC.db"
 DB_COLUMNS="service, client, client_type, auth_value, auth_reason, auth_version, csreq, flags"
 
-CLIENT='com.google.Chrome'
+CHROME_CLIENT='com.google.Chrome'
+CHROME_TEST_CLIENT='com.google.chrome.for.testing'
+
 CLIENT_TYPE=0  # CLIENT is a bundle identifier
 AUTH_VALUE=2  # allowed
 AUTH_REASON=3  # user set
@@ -38,8 +40,10 @@ for DB_PATH in "$SYSTEM_DB_PATH" "$USER_DB_PATH"; do
   sudo sqlite3 "$DB_PATH" "$tcc_service_accessibility"
   sudo sqlite3 "$DB_PATH" "$tcc_service_developer_tool"
 
-  sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$MICROPHONE', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
-  sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$CAMERA', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
-  sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$SCREEN_CAPTURE', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
-  sudo sqlite3 "$DB_PATH" "SELECT * FROM access WHERE client = '$CLIENT'"
+  for CLIENT in "$CHROME_CLIENT" "$CHROME_TEST_CLIENT"; do
+    sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$MICROPHONE', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
+    sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$CAMERA', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
+    sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$SCREEN_CAPTURE', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
+    sudo sqlite3 "$DB_PATH" "SELECT * FROM access WHERE client = '$CLIENT'"
+  done
 done
