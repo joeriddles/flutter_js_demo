@@ -32,8 +32,9 @@ test_1() {
     --device-id web-server \
     --browser-dimension=960,1080 \
     --driver-port=4444 \
-    --web-browser-flag='--remote-debugging-port=9222' \
+    --web-browser-flag=--remote-debugging-port=9222 \
     --driver-environment "{\"REMOTE_DEBUGGING_PORT\": 9222}" \
+    --chrome-binary="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
     --no-pub \
     --no-headless
 }
@@ -52,9 +53,10 @@ test_2() {
     --device-id web-server \
     --browser-dimension=960,1080 \
     --driver-port=4445 \
-    --web-browser-flag='--remote-debugging-port=9223' \
-    --web-browser-flag='--window-position="960,0"' \
+    --web-browser-flag=--remote-debugging-port=9223 \
+    --web-browser-flag=--window-position="960,0" \
     --driver-environment "{\"REMOTE_DEBUGGING_PORT\": 9223}" \
+    --chrome-binary="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
     --no-pub \
     --no-headless
 }

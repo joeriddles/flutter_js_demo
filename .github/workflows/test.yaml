@@ -22,17 +22,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: browser-actions/setup-chrome@v1
-        id: setup-chrome
-        with:
-          chrome-version: 126
-          install-chromedriver: true
+      # - uses: browser-actions/setup-chrome@v1
+      #   id: setup-chrome
+      #   with:
+      #     chrome-version: 126
+      #     install-chromedriver: true
           
       - name: Give Chrome permissions
         run: |
           ./grant-mac-permissions.sh
-        env:
-          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        # env:
+        #   CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
       
       - name: Setup tmate session
         if: ${{ failure() }}
