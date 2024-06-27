@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eux
 
-CHROME_PATH='/Applications/Google Chrome.app'
+CHROME_PATH='/Applications/Chrome for Testing.app'
 DB_PATH="/Library/Application Support/com.apple.TCC/TCC.db"
 DB_COLUMNS="service, client, client_type, auth_value, auth_reason, auth_version, csreq, flags"
 
