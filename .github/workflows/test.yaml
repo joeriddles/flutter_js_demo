@@ -25,8 +25,8 @@ jobs:
       - name: Set up chrome
         run: |
           npx @puppeteer/browsers install chrome@stable
-          cd chrome/*
-          mv 'Google Chrome for Testing.app' '/Applications/Google Chrome for Testing.app'
+          cd chrome/*/*
+          mv './Google Chrome for Testing.app' '/Applications/Google Chrome for Testing.app'
           
       - name: Give Chrome permissions
         run: |
