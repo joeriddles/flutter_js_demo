@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -eux
 
 CHROME_PATH='/Applications/Google Chrome.app'
 DB_PATH="/Library/Application Support/com.apple.TCC/TCC.db"
