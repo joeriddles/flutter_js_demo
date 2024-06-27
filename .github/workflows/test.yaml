@@ -34,10 +34,6 @@ jobs:
           sudo ln -s "/Applications/Google Chrome.app" "/Applications/Google Chrome for Testing.app"
           sudo ln -s "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"
 
-      - name: List MacOS permission types
-        run: |
-          sudo strings /System/Library/PrivateFrameworks/TCC.framework/Support/tccd | grep "^kTCCService[A-Z a-z]"
-
       - name: Give Chrome permissions
         run: |
           ./grant-mac-permissions.sh
