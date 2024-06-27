@@ -15,7 +15,7 @@ codesign -dr - "$CHROME_PATH" 2>&1 | awk -F ' => ' '/designated/{print $2}' | cs
 CSREQ=$(xxd -p /tmp/csreq.bin  | tr -d '\n')
 
 SYSTEM_DB_PATH="/Library/Application Support/com.apple.TCC/TCC.db"
-USER_DB_PATH="~/Library/Application Support/com.apple.TCC/TCC.db"
+USER_DB_PATH="/Users/$USER/Library/Application Support/com.apple.TCC/TCC.db"
 DB_COLUMNS="service, client, client_type, auth_value, auth_reason, auth_version, csreq, flags"
 
 CLIENT='com.google.Chrome'
