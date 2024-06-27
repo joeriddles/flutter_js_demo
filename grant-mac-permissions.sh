@@ -29,9 +29,8 @@ CAMERA='kTCCServiceCamera'
 SCREEN_CAPTURE='kTCCServiceScreenCapture'
 
 # See https://circleci.com/developer/orbs/orb/circleci/macos#commands-add-uitest-permissions
-epochdate=$(($(date +'%s * 1000 + %-N / 1000000')))
-tcc_service_accessibility="replace into access (service,client,client_type,auth_value,auth_reason,auth_version,indirect_object_identifier,flags,last_modified) values (\"kTCCServiceAccessibility\",\"com.apple.dt.Xcode-Helper\",0,2,1,1,\"UNUSED\",0,$epochdate);"
-tcc_service_developer_tool="replace into access (service,client,client_type,auth_value,auth_reason,auth_version,indirect_object_identifier,flags,last_modified) values (\"kTCCServiceDeveloperTool\",\"com.apple.Terminal\",0,2,1,1,\"UNUSED\",0,$epochdate);"
+tcc_service_accessibility="INSERT or REPLACE INTO access (service,client,client_type,auth_value,auth_reason,auth_version,indirect_object_identifier,flags) values (\"kTCCServiceAccessibility\",\"com.apple.dt.Xcode-Helper\",0,2,1,1,\"UNUSED\",0);"
+tcc_service_developer_tool="INSERT or REPLACE INTO access (service,client,client_type,auth_value,auth_reason,auth_version,indirect_object_identifier,flags) values (\"kTCCServiceDeveloperTool\",\"com.apple.Terminal\",0,2,1,1,\"UNUSED\",0);"
 
 for DB_PATH in "$SYSTEM_DB_PATH" "$USER_DB_PATH"; do
   echo Adding permissions $DB_PATH
