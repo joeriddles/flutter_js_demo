@@ -83,6 +83,7 @@ mkdir -p ./screenshots
 touch ./stop
 
 if [ "$OS_NAME" == "Darwin" ]; then
+  ffmpeg -f avfoundation -list_devices true -i ""
   <stop ffmpeg \
     -loglevel info \
     -y \
@@ -90,7 +91,7 @@ if [ "$OS_NAME" == "Darwin" ]; then
     -f avfoundation \
     -pixel_format uyvy422 \
     -framerate 25 \
-    -i "1" \
+    -i "default" \
     -c:v libx264 \
     -c:a aac \
     -f flv \
