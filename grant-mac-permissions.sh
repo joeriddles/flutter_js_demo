@@ -17,11 +17,8 @@ CSREQ=$(xxd -p /tmp/csreq.bin  | tr -d '\n')
 DB_PATH="/Library/Application Support/com.apple.TCC/TCC.db"
 DB_COLUMNS="service, client, client_type, auth_value, auth_reason, auth_version, csreq, flags"
 
-# CLIENT='com.google.chrome.for.testing'
-# CLIENT_TYPE=0  # CLIENT is a bundle identifier
-
-CLIENT=$CHROME_PATH
-CLIENT_TYPE=1  # CLIENT is an absolute path
+CLIENT='com.google.Chrome'
+CLIENT_TYPE=0  # CLIENT is a bundle identifier
 AUTH_VALUE=2  # allowed
 AUTH_REASON=3  # user set
 AUTH_VERSION=1  # always 1

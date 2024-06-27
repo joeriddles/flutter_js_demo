@@ -37,8 +37,7 @@ jobs:
       - name: Give Chrome permissions
         run: |
           ./grant-mac-permissions.sh
-        # env:
-        #   CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+          open '/Applications/Google Chrome.app'
       
       - name: Setup tmate session
         if: ${{ failure() }}
