@@ -2,7 +2,7 @@
 set -eux
 
 CHROME_PATH='/Applications/Google Chrome for Testing.app'
-if ! [ -f $CHROME_PATH ]; then 
+if ! [ -f "$CHROME_PATH" ]; then 
   echo "CHROME_PATH not found: $CHROME_PATH"
   exit 1
 fi
