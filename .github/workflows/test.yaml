@@ -37,7 +37,7 @@ jobs:
       - name: Give Chrome permissions
         run: |
           ./grant-mac-permissions.sh
-          open '/Applications/Google Chrome.app' \
+          open '/Applications/Google Chrome.app' --args \
             --bwsi \
             --disable-background-timer-throttling \
             --disable-default-apps \
