@@ -63,7 +63,7 @@ fi
 
 # See https://stackoverflow.com/a/37692419/11343166
 gracefully_shutdown() {
-  $PID=$1
+  PID=$1
   for SIG in 15 2 3 6 9 ; do
     echo $SIG
     echo kill -$SIG $PID || break
