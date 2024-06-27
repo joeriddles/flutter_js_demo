@@ -64,7 +64,11 @@ fi
 # See https://stackoverflow.com/a/37692419/11343166
 gracefully_shutdown() {
   $PID=$1
-  for SIG in 15 2 3 6 9 ; do echo $SIG ; echo kill -$SIG $PID || break ; sleep 30 ; done
+  for SIG in 15 2 3 6 9 ; do
+    echo $SIG
+    echo kill -$SIG $PID || break
+    sleep 30
+  done
 }
 
 declare FFMPEG_ID
@@ -73,7 +77,7 @@ stop_ffmpeg() {
   status=$?
   # See https://stackoverflow.com/a/21032143/11343166
   echo 'q' > ./stop
-  sleep 5
+  gracefully_shutdown $FFMPEG_ID
   exit $status
 }
 
@@ -87,7 +91,7 @@ if is_on_github_actions; then
     <./stop ffmpeg \
       -loglevel warning \
       -y \
-      -video_size 1280x1024 \
+      -video_size 1920x1080 \
       -f avfoundation \
       -framerate 25 \
       -i :99 \
@@ -100,7 +104,7 @@ if is_on_github_actions; then
     <./stop ffmpeg \
       -loglevel warning \
       -y \
-      -video_size 1280x1024 \
+      -video_size 1920x1080 \
       -f x11grab \
       -framerate 25 \
       -i :99 \
