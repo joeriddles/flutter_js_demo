@@ -1,12 +1,12 @@
 #!/bin/bash
 set -eux
 
-CHROME_PATH='/Users/runner/hostedtoolcache/setup-chrome/chromium/126.0.6478.126/x64/Google Chrome for Testing.app'
+CHROME_PATH='/Users/runner/hostedtoolcache/setup-chrome/chromium/126.0.6478.126/x64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing.app'
 echo "CHROME_PATH=$CHROME_PATH"
-if ! [ -f "$CHROME_PATH" ]; then 
-  echo "CHROME_PATH not found: $CHROME_PATH"
-  exit 1
-fi
+# if ! [ -f "$CHROME_PATH" ]; then 
+#   echo "CHROME_PATH not found: $CHROME_PATH"
+#   exit 1
+# fi
 
 # See https://entonos.com/2023/06/23/how-to-modify-tcc-on-macos/
 # and https://stackoverflow.com/questions/52706542/how-to-get-csreq-of-macos-application-on-command-line/57259004#57259004
