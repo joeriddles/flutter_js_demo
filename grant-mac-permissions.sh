@@ -1,6 +1,7 @@
 #!/bin/bash
 set -eux
 
+echo "CHROME_PATH=$CHROME_PATH"
 if ! [ -f "$CHROME_PATH" ]; then 
   echo "CHROME_PATH not found: $CHROME_PATH"
   exit 1
