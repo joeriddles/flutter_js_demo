@@ -82,16 +82,16 @@ jobs:
           export DISPLAY=:0
 
           ./integration-test.sh
-      
-      - name: Save test screenshots
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: screenshots
-          path: ./screenshots
 
       - name: Snag dbs
         if: always()
         run: |
           cp '/Library/Application Support/com.apple.TCC/TCC.db' './screenshots/System_TCC.db'
           cp '/Users/runner/Library/Application Support/com.apple.TCC/TCC.db' './screenshots/User_TCC.db'
+        
+      - name: Save test screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots
+          path: ./screenshots
