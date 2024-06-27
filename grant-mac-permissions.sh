@@ -1,8 +1,6 @@
 #!/bin/bash
 set -eux
 
-# TODO(joeriddles): don't hardcode this
-CHROME_PATH='/Users/runner/hostedtoolcache/setup-chrome/chromium/126.0.6478.126/x64/Google Chrome for Testing.app'
 if ! [ -f "$CHROME_PATH" ]; then 
   echo "CHROME_PATH not found: $CHROME_PATH"
   exit 1

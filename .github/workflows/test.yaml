@@ -23,6 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - uses: browser-actions/setup-chrome@v1
+        id: setup-chrome
         with:
           chrome-version: 126
           install-chromedriver: true
@@ -30,6 +31,8 @@ jobs:
       - name: Give Chrome permissions
         run: |
           ./grant-mac-permissions.sh
+        env:
+          CRHOME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
       
       - uses: FedericoCarboni/setup-ffmpeg@v3
         id: setup-ffmpeg
