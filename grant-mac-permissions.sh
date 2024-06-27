@@ -44,7 +44,7 @@ for DB_PATH in "$SYSTEM_DB_PATH" "$USER_DB_PATH"; do
   for CLIENT in $(sudo sqlite3 "$SYSTEM_DB_PATH" "SELECT DISTINCT client FROM access;"); do
     row=$(sudo sqlite3 "$DB_PATH" "SELECT * FROM access WHERE client = '$CLIENT' LIMIT 1;")
     IFS="|" read -ra row_split <<< "$row"
-    row_split=("${row_split[@]:1}")
+    row_split="${row_split[@]:1}"
     for service in $MICROPHONE $CAMERA $SCREEN_CAPTURE; do
       row_for_service="${service}|${row_split[@]}"
       configure_tccdb "$DB_PATH" "$row_for_service"
