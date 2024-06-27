@@ -37,7 +37,16 @@ jobs:
       - name: Give Chrome permissions
         run: |
           ./grant-mac-permissions.sh
-          open '/Applications/Google Chrome.app'
+          open '/Applications/Google Chrome.app' \
+            --bwsi \
+            --disable-background-timer-throttling \
+            --disable-default-apps \
+            --disable-extensions \
+            --disable-popup-blocking \
+            --disable-translate \
+            --no-default-browser-check \
+            --no-sandbox \
+            --no-first-run
       
       - name: Setup tmate session
         if: ${{ failure() }}

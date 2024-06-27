@@ -13,7 +13,6 @@ CHROME_PATH='/Applications/Google Chrome.app'
 # and https://stackoverflow.com/questions/52706542/how-to-get-csreq-of-macos-application-on-command-line/57259004#57259004
 codesign -dr - "$CHROME_PATH" 2>&1 | awk -F ' => ' '/designated/{print $2}' | csreq -r- -b /tmp/csreq.bin 
 CSREQ=$(xxd -p /tmp/csreq.bin  | tr -d '\n')
-echo $CSREQ
 
 DB_PATH="/Library/Application Support/com.apple.TCC/TCC.db"
 DB_COLUMNS="service, client, client_type, auth_value, auth_reason, auth_version, csreq, flags"
