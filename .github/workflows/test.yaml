@@ -32,7 +32,7 @@ jobs:
         run: |
           ./grant-mac-permissions.sh
         env:
-          CRHOME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
       
       - uses: FedericoCarboni/setup-ffmpeg@v3
         id: setup-ffmpeg
