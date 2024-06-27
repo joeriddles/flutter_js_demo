@@ -61,60 +61,57 @@ if ! is_on_github_actions; then
   trap cleanup EXIT
 fi
 
-# See https://stackoverflow.com/a/37692419/11343166
-gracefully_shutdown() {
-  PID=$1
-  for SIG in 15 2 3 6 9 ; do
-    echo $SIG
-    echo kill -$SIG $PID || break
-    sleep 30
-  done
-}
-
-declare FFMPEG_ID
+declare FFMPEG_PID
 
 stop_ffmpeg() {
   status=$?
   # See https://stackoverflow.com/a/21032143/11343166
-  echo 'q' > ./stop
-  gracefully_shutdown $FFMPEG_ID
+  echo 'q' > stop
+  rm ./stop
+  wait $FFMPEG_PID
+
+  if ! is_on_github_actions; then
+    kill 0
+  fi
+
   exit $status
 }
 
 OS_NAME=$(uname)
 
-if is_on_github_actions; then
-  mkdir -p ./screenshots
-  touch ./stop
+mkdir -p ./screenshots
+touch ./stop
 
-  if [ "$OS_NAME" == "Darwin" ]; then
-    <./stop ffmpeg \
-      -loglevel warning \
-      -y \
-      -video_size 1920x1080 \
-      -f avfoundation \
-      -framerate 25 \
-      -i "1" \
-      -c:v libx264 \
-      -c:a aac \
-      -f flv \
-      ./screenshots/recording.flv \
-      &
-  elif [ "$OS_NAME" == "Linux" ]; then
-    <./stop ffmpeg \
-      -loglevel warning \
-      -y \
-      -video_size 1920x1080 \
-      -f x11grab \
-      -framerate 25 \
-      -i :99 \
-      -c:v libx264 \
-      -c:a aac \
-      -f flv \
-      ./screenshots/recording.flv \
-      &
-  fi
-  FFMPEG_ID=$!
+if [ "$OS_NAME" == "Darwin" ]; then
+  <stop ffmpeg \
+    -loglevel info \
+    -y \
+    -video_size 1920x1080 \
+    -f avfoundation \
+    -pixel_format uyvy422 \
+    -framerate 25 \
+    -i "1" \
+    -c:v libx264 \
+    -c:a aac \
+    -f flv \
+    ./screenshots/recording.flv \
+    &
+  FFMPEG_PID=$!
+  trap stop_ffmpeg EXIT
+elif [ "$OS_NAME" == "Linux" ]; then
+  <stop ffmpeg \
+    -loglevel info \
+    -y \
+    -video_size 1920x1080 \
+    -f x11grab \
+    -framerate 25 \
+    -i :99 \
+    -c:v libx264 \
+    -c:a aac \
+    -f flv \
+    ./screenshots/recording.flv \
+    &
+  FFMPEG_PID=$!
   trap stop_ffmpeg EXIT
 fi
 
