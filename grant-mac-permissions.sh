@@ -2,8 +2,7 @@
 set -eu
 
 CHROME_PATH='/Applications/Google Chrome.app'
-DB_PATH="./TCC.db"
-# DB_PATH="/Library/Application Support/com.apple.TCC/TCC.db"
+DB_PATH="/Library/Application Support/com.apple.TCC/TCC.db"
 DB_COLUMNS="service, client, client_type, auth_value, auth_reason, auth_version, csreq, flags"
 
 CLIENT=$CHROME_PATH
@@ -22,6 +21,6 @@ codesign -dr - "$CHROME_PATH"  2>&1 | awk -F ' => ' '/designated/{print $2}' | c
 CSREQ=$(xxd -p /tmp/csreq.bin  | tr -d '\n')
 
 # echo ".schema access" | sqlite3 "$DB_PATH"
-sqlite3 $DB_PATH "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$MICROPHONE', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
-sqlite3 $DB_PATH "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$CAMERA', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
-sqlite3 $DB_PATH "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$SCREEN_CAPTURE', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
+sudo sqlite3 $DB_PATH "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$MICROPHONE', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
+sudo sqlite3 $DB_PATH "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$CAMERA', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
+sudo sqlite3 $DB_PATH "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$SCREEN_CAPTURE', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
