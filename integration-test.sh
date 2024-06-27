@@ -94,7 +94,7 @@ if is_on_github_actions; then
       -video_size 1920x1080 \
       -f avfoundation \
       -framerate 25 \
-      -i :99 \
+      -i "0:0" \
       -c:v libx264 \
       -c:a aac \
       -f flv \
