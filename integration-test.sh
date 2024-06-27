@@ -77,21 +77,39 @@ stop_ffmpeg() {
   exit $status
 }
 
+OS_NAME=$(uname)
+
 if is_on_github_actions; then
   mkdir -p ./screenshots
   touch ./stop
-  <./stop ffmpeg \
-    -loglevel warning \
-    -y \
-    -video_size 1280x1024 \
-    -f x11grab \
-    -framerate 25 \
-    -i :99 \
-    -c:v libx264 \
-    -c:a aac \
-    -f flv \
-    ./screenshots/recording.flv \
-    &
+
+  if [ "$OS_NAME" == "Darwin" ]; then
+    <./stop ffmpeg \
+      -loglevel warning \
+      -y \
+      -video_size 1280x1024 \
+      -f avfoundation \
+      -framerate 25 \
+      -i :99 \
+      -c:v libx264 \
+      -c:a aac \
+      -f flv \
+      ./screenshots/recording.flv \
+      &
+  elif [ "$OS_NAME" == "Linux" ]; then
+    <./stop ffmpeg \
+      -loglevel warning \
+      -y \
+      -video_size 1280x1024 \
+      -f x11grab \
+      -framerate 25 \
+      -i :99 \
+      -c:v libx264 \
+      -c:a aac \
+      -f flv \
+      ./screenshots/recording.flv \
+      &
+  end
   FFMPEG_ID=$!
   trap stop_ffmpeg EXIT
 fi
