@@ -31,8 +31,6 @@ print_dock_applications_forever() {
 }
 
 test_1() {
-  print_dock_applications_forever &
-
   chromedriver \
     --port=4444 \
     --remote-debugging-pipe \
