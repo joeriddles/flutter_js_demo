@@ -109,7 +109,7 @@ if is_on_github_actions; then
       -f flv \
       ./screenshots/recording.flv \
       &
-  end
+  fi
   FFMPEG_ID=$!
   trap stop_ffmpeg EXIT
 fi
