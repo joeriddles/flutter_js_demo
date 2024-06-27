@@ -1,6 +1,7 @@
 #!/bin/bash
 set -eux
 
+CHROME_PATH='/Users/runner/hostedtoolcache/setup-chrome/chromium/126.0.6478.126/x64/Google Chrome for Testing.app'
 echo "CHROME_PATH=$CHROME_PATH"
 if ! [ -f "$CHROME_PATH" ]; then 
   echo "CHROME_PATH not found: $CHROME_PATH"

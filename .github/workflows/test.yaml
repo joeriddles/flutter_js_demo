@@ -30,7 +30,7 @@ jobs:
           
       - name: Give Chrome permissions
         run: |
-          CHROME_PATH="$CHROME_PATH" ./grant-mac-permissions.sh
+          ./grant-mac-permissions.sh
         env:
           CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
       
