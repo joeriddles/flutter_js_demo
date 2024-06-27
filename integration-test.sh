@@ -25,7 +25,12 @@ is_on_github_actions() {
 test_1() {
   chromedriver \
     --port=4444 \
-    --remote-debugging-pipe &
+    --remote-debugging-pipe \
+    --remote-debugging-port=9222 \
+    --enable-chrome-logs \
+    --binary='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' \
+    --incognito \
+    &
 
   dart $FLUTTER_TOOLS_PATH drive \
     --target=integration_test/main_test.dart \
@@ -45,6 +50,8 @@ test_2() {
     --port=4445 \
     --remote-debugging-pipe \
     --remote-debugging-port=9223 \
+    --enable-chrome-logs \
+    --binary='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' \
     &
 
   dart $FLUTTER_TOOLS_PATH drive \
