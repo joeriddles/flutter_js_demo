@@ -1,17 +1,15 @@
 #!/bin/bash
 set -eux
 
-CHROME_PATH='/Users/runner/hostedtoolcache/setup-chrome/chromium/126.0.6478.126/x64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing.app'
-echo "CHROME_PATH=$CHROME_PATH"
-# if ! [ -f "$CHROME_PATH" ]; then 
-#   echo "CHROME_PATH not found: $CHROME_PATH"
-#   exit 1
-# fi
+# Handle unsigned binaries
+cd '/Users/runner/hostedtoolcache/setup-chrome/chromium/126.0.6478.126/x64/Google Chrome for Testing.app/Contents/MacOS/'
+codesign --detached './Google Chrome for Testing.app.sig' -s - './Google Chrome for Testing.app'
+codesign -d -r- --detached './Google Chrome for Testing.app.sig' './Google Chrome for Testing.app'
 
 # See https://entonos.com/2023/06/23/how-to-modify-tcc-on-macos/
 # and https://stackoverflow.com/questions/52706542/how-to-get-csreq-of-macos-application-on-command-line/57259004#57259004
-codesign -dr - "$CHROME_PATH" 2>&1 | awk -F ' => ' '/designated/{print $2}' | csreq -r- -b /tmp/csreq.bin 
-CSREQ=$(xxd -p /tmp/csreq.bin  | tr -d '\n')
+# codesign -dr - "$CHROME_PATH" 2>&1 | awk -F ' => ' '/designated/{print $2}' | csreq -r- -b /tmp/csreq.bin 
+# CSREQ=$(xxd -p /tmp/csreq.bin  | tr -d '\n')
 
 DB_PATH="/Library/Application Support/com.apple.TCC/TCC.db"
 DB_COLUMNS="service, client, client_type, auth_value, auth_reason, auth_version, csreq, flags"
