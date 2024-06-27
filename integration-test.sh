@@ -89,7 +89,7 @@ if [ "$OS_NAME" == "Darwin" ]; then
   echo "SCREEN_CAPTURE_INTERFACE_ID=$SCREEN_CAPTURE_INTERFACE_ID"
 
   <stop ffmpeg \
-    -loglevel info \
+    -loglevel warning \
     -y \
     -video_size 1920x1080 \
     -f avfoundation \
@@ -106,7 +106,7 @@ if [ "$OS_NAME" == "Darwin" ]; then
   trap stop_ffmpeg EXIT
 elif [ "$OS_NAME" == "Linux" ]; then
   <stop ffmpeg \
-    -loglevel info \
+    -loglevel warning \
     -y \
     -video_size 1920x1080 \
     -f x11grab \
