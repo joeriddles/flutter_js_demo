@@ -47,6 +47,10 @@ jobs:
           brew install --cask xquartz
           echo "/opt/X11/bin" >> $GITHUB_PATH
 
+          open -a XQuartz
+          sleep 5
+          export DISPLAY=:0
+
           ./integration-test.sh
       
       - name: Save test screenshots

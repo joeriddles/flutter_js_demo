@@ -39,6 +39,8 @@ test_1() {
 }
 
 test_2() {
+  sleep 5
+
   chromedriver \
     --port=4445 \
     --remote-debugging-pipe \
@@ -83,7 +85,8 @@ mkdir -p ./screenshots
 touch ./stop
 
 if [ "$OS_NAME" == "Darwin" ]; then
-  ffmpeg -f avfoundation -list_devices true -i "" 2>&1
+  SCREEN_CAPTURE_INTERFACE_ID=$(ffmpeg -f avfoundation -list_devices true -i "" 2>&1 | grep 'Capture screen' | grep -o '\[[0-9]\]' | sed 's/\[//; s/\]//')
+  echo "SCREEN_CAPTURE_INTERFACE_ID=$SCREEN_CAPTURE_INTERFACE_ID"
 
   <stop ffmpeg \
     -loglevel info \
@@ -92,7 +95,7 @@ if [ "$OS_NAME" == "Darwin" ]; then
     -f avfoundation \
     -pixel_format uyvy422 \
     -framerate 25 \
-    -i "default" \
+    -i "$SCREEN_CAPTURE_INTERFACE_ID" \
     -c:v libx264 \
     -c:a aac \
     -f flv \
