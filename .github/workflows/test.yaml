@@ -45,7 +45,6 @@ jobs:
             --disable-popup-blocking \
             --disable-translate \
             --no-default-browser-check \
-            --no-sandbox \
             --no-first-run
       
       - name: Setup tmate session

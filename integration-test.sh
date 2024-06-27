@@ -22,7 +22,17 @@ is_on_github_actions() {
     fi
 }
 
+print_dock_applications_forever() {
+  while :
+  do
+    ./list-dock-applications.sh
+    sleep 3
+  done
+}
+
 test_1() {
+  print_dock_applications_forever &
+
   chromedriver \
     --port=4444 \
     --remote-debugging-pipe \

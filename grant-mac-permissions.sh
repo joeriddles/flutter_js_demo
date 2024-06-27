@@ -28,8 +28,16 @@ MICROPHONE='kTCCServiceMicrophone'
 CAMERA='kTCCServiceCamera'
 SCREEN_CAPTURE='kTCCServiceScreenCapture'
 
+# See https://circleci.com/developer/orbs/orb/circleci/macos#commands-add-uitest-permissions
+tcc_service_accessibility="replace into access (service,client,client_type,auth_value,auth_reason,auth_version,indirect_object_identifier,flags,last_modified) values (\"kTCCServiceAccessibility\",\"com.apple.dt.Xcode-Helper\",0,2,1,1,\"UNUSED\",0,$epochdate);"
+tcc_service_developer_tool="replace into access (service,client,client_type,auth_value,auth_reason,auth_version,indirect_object_identifier,flags,last_modified) values (\"kTCCServiceDeveloperTool\",\"com.apple.Terminal\",0,2,1,1,\"UNUSED\",0,$epochdate);"
+
 for DB_PATH in "$SYSTEM_DB_PATH" "$USER_DB_PATH"; do
-  # echo ".schema access" | sqlite3 "$DB_PATH"
+  echo Adding permissions $DB_PATH
+
+  sudo sqlite3 "$DB_PATH" "$tcc_service_accessibility"
+  sudo sqlite3 "$DB_PATH" "$tcc_service_developer_tool"
+
   sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$MICROPHONE', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
   sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$CAMERA', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
   sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$SCREEN_CAPTURE', '$CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CSREQ', 0)"
