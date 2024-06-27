@@ -83,7 +83,7 @@ mkdir -p ./screenshots
 touch ./stop
 
 if [ "$OS_NAME" == "Darwin" ]; then
-  ffmpeg -f avfoundation -list_devices true -i "" 2>&1 | grep -e "AVFoundation.*\[\d\]"
+  ffmpeg -f avfoundation -list_devices true -i "" 2>&1
 
   <stop ffmpeg \
     -loglevel info \
@@ -97,6 +97,7 @@ if [ "$OS_NAME" == "Darwin" ]; then
     -c:a aac \
     -f flv \
     ./screenshots/recording.flv \
+    2>&1 \
     &
   FFMPEG_PID=$!
   trap stop_ffmpeg EXIT
