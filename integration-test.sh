@@ -83,7 +83,8 @@ mkdir -p ./screenshots
 touch ./stop
 
 if [ "$OS_NAME" == "Darwin" ]; then
-  ffmpeg -f avfoundation -list_devices true -i ""
+  ffmpeg -f avfoundation -list_devices true -i "" 2>&1 | grep -e "AVFoundation.*\[\d\]"
+
   <stop ffmpeg \
     -loglevel info \
     -y \
