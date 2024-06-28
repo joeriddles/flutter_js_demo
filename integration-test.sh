@@ -66,9 +66,9 @@ test_2() {
     --target=integration_test/main_test.dart \
     --device-id web-server \
     --browser-dimension=960,1080 \
+    --browser-location=960,0 \
     --driver-port=4445 \
     --web-browser-flag=--remote-debugging-port=9223 \
-    --web-browser-flag=--window-position="960,0" \
     --driver-environment "{\"REMOTE_DEBUGGING_PORT\": 9223}" \
     --no-pub \
     --no-headless
@@ -141,8 +141,8 @@ declare -a pids
 test_1 &
 pids[0]=$!
 
-# test_2 &
-# pids[1]=$!
+test_2 &
+pids[1]=$!
 
 for pid in "${pids[@]}"; do
     wait "$pid"
