@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -eux
 
 SYSTEM_DB_PATH="/Library/Application Support/com.apple.TCC/TCC.db"
 USER_DB_PATH="$HOME/Library/Application Support/com.apple.TCC/TCC.db"
