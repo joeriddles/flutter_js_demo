@@ -17,48 +17,6 @@ MICROPHONE='kTCCServiceMicrophone'
 CAMERA='kTCCServiceCamera'
 SCREEN_CAPTURE='kTCCServiceScreenCapture'
 
-# https://github.com/actions/runner-images/blob/macos-13/20240623.1/images/macos/scripts/helpers/utils.sh#L48C1-L50C2
-is_Sonoma() {
-    [ "$OSTYPE" = "darwin23" ]
-}
-
-# https://github.com/actions/runner-images/blob/macos-13/20240623.1/images/macos/scripts/helpers/utils.sh#L137
-configure_tccdb() {
-  local dbPath=$1
-  local values=$2
-  local sqlQuery="INSERT OR REPLACE INTO access VALUES($values);"
-  sudo sqlite3 "$dbPath" "$sqlQuery"
-}
-
-configure_system_tccdb () {
-    configure_tccdb "$SYSTEM_DB_PATH" "$1"
-}
-
-configure_user_tccdb () {
-    configure_tccdb "$USER_DB_PATH" "$1"
-}
-
-# === Existing clients ===
-# add microphone, camera, and screen capture for all existing clients in the databases
-# BELOW DOES NOT WORK!
-# for DB_PATH in "$SYSTEM_DB_PATH" "$USER_DB_PATH"; do
-#   echo "DB_PATH=$DB_PATH"
-#   while IFS= read -r CLIENT; do
-#     echo "CLIENT=$CLIENT"
-#     row=$(sudo sqlite3 "$DB_PATH" "SELECT * FROM access WHERE client = '$CLIENT' LIMIT 1;")
-#     echo "row=$row"
-#     IFS="|" read -ra row_split <<< "$row"
-#     row_split="${row_split[@]:1}"
-#     echo "row_split=$row_split"
-#     for service in $MICROPHONE $CAMERA $SCREEN_CAPTURE; do
-#       row_for_service="${service},${row_split[@]}"
-#       echo "row_for_service=$row_for_service"
-#       configure_tccdb "$DB_PATH" "$row_for_service"
-#     done
-#   done < <(sudo sqlite3 "$DB_PATH" "SELECT DISTINCT client FROM access;")
-# done
-
-# === Chrome ===
 # See https://circleci.com/developer/orbs/orb/circleci/macos#commands-add-uitest-permissions
 tcc_service_accessibility="INSERT or REPLACE INTO access (service,client,client_type,auth_value,auth_reason,auth_version,indirect_object_identifier,flags) values (\"kTCCServiceAccessibility\",\"com.apple.dt.Xcode-Helper\",0,2,1,1,\"UNUSED\",0);"
 tcc_service_developer_tool="INSERT or REPLACE INTO access (service,client,client_type,auth_value,auth_reason,auth_version,indirect_object_identifier,flags) values (\"kTCCServiceDeveloperTool\",\"com.apple.Terminal\",0,2,1,1,\"UNUSED\",0);"

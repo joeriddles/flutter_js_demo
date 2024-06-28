@@ -18,40 +18,20 @@ jobs:
         run: |
           sw_vers
           csrutil status
-          which -a chromedriver
 
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # - uses: browser-actions/setup-chrome@v1
-      #   id: setup-chrome
-      #   with:
-      #     chrome-version: 126
-      #     install-chromedriver: true
+      # codesign with "Chrome for Testing" doesn't work in grant-mac-permissions.sh
+      - name: Symlink Chrome to Chrome Testing
+        run: |
+          sudo rm -rf "/Applications/Google Chrome for Testing.app"
+          sudo ln -s "/Applications/Google Chrome.app" "/Applications/Google Chrome for Testing.app"
+          sudo ln -s "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"
 
-      # - name: Symlink Chrome to Chrome Testing
-      #   run: |
-      #     sudo rm -rf "/Applications/Google Chrome for Testing.app"
-      #     sudo ln -s "/Applications/Google Chrome.app" "/Applications/Google Chrome for Testing.app"
-      #     sudo ln -s "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"
-
-      - name: Give Chrome permissions
+      - name: Grant Mac permissions
         run: |
           ./grant-mac-permissions.sh
-          # open '/Applications/Google Chrome.app' --args \
-          #   --bwsi \
-          #   --disable-background-timer-throttling \
-          #   --disable-default-apps \
-          #   --disable-extensions \
-          #   --disable-popup-blocking \
-          #   --disable-translate \
-          #   --no-default-browser-check \
-          #   --no-first-run
-      
-      - name: Setup tmate session
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
-        timeout-minutes: 15
       
       - uses: FedericoCarboni/setup-ffmpeg@v3
         id: setup-ffmpeg
@@ -72,6 +52,7 @@ jobs:
 
       - name: Run integration tests
         run: |
+          # TODO(joeriddles): move this to when running on Linux
           # export DISPLAY=:99
           # sudo Xvfb -ac :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
 
@@ -84,8 +65,8 @@ jobs:
 
           ./integration-test.sh
 
-      - name: Snag dbs
-        if: always()
+      - name: Save TCC.db
+        if: failure()
         run: |
           mkdir -p ./screenshots/
           cp '/Library/Application Support/com.apple.TCC/TCC.db' './screenshots/System_TCC.db'
