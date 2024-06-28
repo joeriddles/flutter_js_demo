@@ -50,7 +50,7 @@ for DB_PATH in "$SYSTEM_DB_PATH" "$USER_DB_PATH"; do
     row_split="${row_split[@]:1}"
     echo "row_split=$row_split"
     for service in $MICROPHONE $CAMERA $SCREEN_CAPTURE; do
-      row_for_service="${service}|${row_split[@]}"
+      row_for_service="${service},${row_split[@]}"
       echo "row_for_service=$row_for_service"
       configure_tccdb "$DB_PATH" "$row_for_service"
     done
@@ -89,4 +89,9 @@ for DB_PATH in "$SYSTEM_DB_PATH" "$USER_DB_PATH"; do
   sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$CAMERA', '$CHROME_TEST_CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CHROME_TEST_CSREQ', 0)"
   sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$SCREEN_CAPTURE', '$CHROME_TEST_CLIENT', $CLIENT_TYPE, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '$CHROME_TEST_CSREQ', 0)"
   sudo sqlite3 "$DB_PATH" "SELECT * FROM access WHERE client = '$CHROME_TEST_CLIENT'"
+
+  sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$MICROPHONE', '$CHROMEDRIVER_PATH', 1, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '?', 0)"
+  sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$CAMERA', '$CHROMEDRIVER_PATH', 1, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '?', 0)"
+  sudo sqlite3 "$DB_PATH" "INSERT or REPLACE INTO access ($DB_COLUMNS) VALUES ('$SCREEN_CAPTURE', '$CHROMEDRIVER_PATH', 1, $AUTH_VALUE, $AUTH_REASON, $AUTH_VERSION, '?', 0)"
+  sudo sqlite3 "$DB_PATH" "SELECT * FROM access WHERE client = '$CHROMEDRIVER_PATH'"
 done
