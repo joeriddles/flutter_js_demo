@@ -70,19 +70,19 @@ jobs:
           ./bin/flutter update-packages
           echo "$PWD/bin" >> $GITHUB_PATH
 
-      # - name: Run integration tests
-      #   run: |
-      #     # export DISPLAY=:99
-      #     # sudo Xvfb -ac :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
+      - name: Run integration tests
+        run: |
+          # export DISPLAY=:99
+          # sudo Xvfb -ac :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
 
-      #     brew install --cask xquartz
-      #     echo "/opt/X11/bin" >> $GITHUB_PATH
+          brew install --cask xquartz
+          echo "/opt/X11/bin" >> $GITHUB_PATH
 
-      #     open -a XQuartz
-      #     sleep 5
-      #     export DISPLAY=:0
+          open -a XQuartz
+          sleep 5
+          export DISPLAY=:0
 
-      #     ./integration-test.sh
+          ./integration-test.sh
 
       - name: Snag dbs
         if: always()
