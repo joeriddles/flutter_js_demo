@@ -18,6 +18,7 @@ jobs:
         run: |
           sw_vers
           csrutil status
+          which -a chromedriver
 
       - name: Checkout repository
         uses: actions/checkout@v4
