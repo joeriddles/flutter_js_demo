@@ -65,6 +65,10 @@ jobs:
 
           ./integration-test.sh
 
+      - name: Trim recording
+        run: |
+          ./trim-recording.sh ./screenshots/recording.flv
+
       - name: Save TCC.db
         if: failure()
         run: |
