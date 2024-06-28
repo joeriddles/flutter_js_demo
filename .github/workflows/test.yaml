@@ -29,11 +29,11 @@ jobs:
       #     chrome-version: 126
       #     install-chromedriver: true
 
-      - name: Symlink Chrome to Chrome Testing
-        run: |
-          sudo rm -rf "/Applications/Google Chrome for Testing.app"
-          sudo ln -s "/Applications/Google Chrome.app" "/Applications/Google Chrome for Testing.app"
-          sudo ln -s "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"
+      # - name: Symlink Chrome to Chrome Testing
+      #   run: |
+      #     sudo rm -rf "/Applications/Google Chrome for Testing.app"
+      #     sudo ln -s "/Applications/Google Chrome.app" "/Applications/Google Chrome for Testing.app"
+      #     sudo ln -s "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"
 
       - name: Give Chrome permissions
         run: |
