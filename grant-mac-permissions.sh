@@ -52,7 +52,7 @@ for DB_PATH in "$SYSTEM_DB_PATH" "$USER_DB_PATH"; do
     for service in $MICROPHONE $CAMERA $SCREEN_CAPTURE; do
       row_for_service="${service}|${row_split[@]}"
       echo "row_for_service=$row_for_service"
-      # configure_tccdb "$DB_PATH" "$row_for_service"
+      configure_tccdb "$DB_PATH" "$row_for_service"
     done
   done < <(sudo sqlite3 "$DB_PATH" "SELECT DISTINCT client FROM access;")
 done
@@ -71,6 +71,8 @@ echo CHROME_CSREQ="$CHROME_CSREQ"
 codesign -dr - "/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing" 2>&1 | awk -F ' => ' '/designated/{print $2}' | csreq -r- -b /tmp/csreq.bin 
 CHROME_TEST_CSREQ=$(xxd -p /tmp/csreq.bin  | tr -d '\n')
 echo CHROME_TEST_CSREQ="$CHROME_TEST_CSREQ"
+
+CHROMEDRIVER_PATH='/usr/local/bin/chromedriver'
 
 for DB_PATH in "$SYSTEM_DB_PATH" "$USER_DB_PATH"; do
   echo Adding permissions $DB_PATH
