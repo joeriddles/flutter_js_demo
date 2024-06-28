@@ -40,22 +40,23 @@ configure_user_tccdb () {
 
 # === Existing clients ===
 # add microphone, camera, and screen capture for all existing clients in the databases
-for DB_PATH in "$SYSTEM_DB_PATH" "$USER_DB_PATH"; do
-  echo "DB_PATH=$DB_PATH"
-  while IFS= read -r CLIENT; do
-    echo "CLIENT=$CLIENT"
-    row=$(sudo sqlite3 "$DB_PATH" "SELECT * FROM access WHERE client = '$CLIENT' LIMIT 1;")
-    echo "row=$row"
-    IFS="|" read -ra row_split <<< "$row"
-    row_split="${row_split[@]:1}"
-    echo "row_split=$row_split"
-    for service in $MICROPHONE $CAMERA $SCREEN_CAPTURE; do
-      row_for_service="${service},${row_split[@]}"
-      echo "row_for_service=$row_for_service"
-      configure_tccdb "$DB_PATH" "$row_for_service"
-    done
-  done < <(sudo sqlite3 "$DB_PATH" "SELECT DISTINCT client FROM access;")
-done
+# BELOW DOES NOT WORK!
+# for DB_PATH in "$SYSTEM_DB_PATH" "$USER_DB_PATH"; do
+#   echo "DB_PATH=$DB_PATH"
+#   while IFS= read -r CLIENT; do
+#     echo "CLIENT=$CLIENT"
+#     row=$(sudo sqlite3 "$DB_PATH" "SELECT * FROM access WHERE client = '$CLIENT' LIMIT 1;")
+#     echo "row=$row"
+#     IFS="|" read -ra row_split <<< "$row"
+#     row_split="${row_split[@]:1}"
+#     echo "row_split=$row_split"
+#     for service in $MICROPHONE $CAMERA $SCREEN_CAPTURE; do
+#       row_for_service="${service},${row_split[@]}"
+#       echo "row_for_service=$row_for_service"
+#       configure_tccdb "$DB_PATH" "$row_for_service"
+#     done
+#   done < <(sudo sqlite3 "$DB_PATH" "SELECT DISTINCT client FROM access;")
+# done
 
 # === Chrome ===
 # See https://circleci.com/developer/orbs/orb/circleci/macos#commands-add-uitest-permissions
