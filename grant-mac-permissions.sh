@@ -41,7 +41,7 @@ configure_user_tccdb () {
 # === Existing clients ===
 # add microphone, camera, and screen capture for all existing clients in the databases
 for DB_PATH in "$SYSTEM_DB_PATH" "$USER_DB_PATH"; do
-  for CLIENT in $(sudo sqlite3 "$SYSTEM_DB_PATH" "SELECT DISTINCT client FROM access;"); do
+  for CLIENT in $(sudo sqlite3 "$DB_PATH" "SELECT DISTINCT client FROM access;"); do
     row=$(sudo sqlite3 "$DB_PATH" "SELECT * FROM access WHERE client = '$CLIENT' LIMIT 1;")
     IFS="|" read -ra row_split <<< "$row"
     row_split="${row_split[@]:1}"
